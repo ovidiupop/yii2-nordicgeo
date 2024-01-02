@@ -7,6 +7,7 @@
 
 namespace ovidiupop\nordicgeo;
 
+use Yii;
 use yii\base\Component;
 use yii\helpers\ArrayHelper;
 
@@ -85,6 +86,23 @@ class NordicGeo extends Component
     }
 
     /**
+     * Gets a list of countries with their codes and translated names.
+     *
+     * @return array An array containing country codes as keys and translated country names as values.
+     */
+    public function getCountries()
+    {
+        return [
+            'DK' => Yii::t('app', 'Denmark'),
+            'FI' => Yii::t('app', 'Finland'),
+            'FO' => Yii::t('app', 'Faroe Islands'),
+            'IS' => Yii::t('app', 'Iceland'),
+            'NO' => Yii::t('app', 'Norway'),
+            'SE' => Yii::t('app', 'Sweden'),
+        ];
+    }
+
+    /**
      * Makes an API call based on the provided type, parameters, and optional combining flag.
      *
      * @param string $type The type of the API request.
@@ -96,8 +114,19 @@ class NordicGeo extends Component
     {
         $url = $this->buildApiUrl($type, $params);
         $result = $this->makeApiCall($url);
-        return $combine ? array_combine($result, $result) : $result;
+
+        if ($combine && $type === 'Countries') {
+            $countries = $this->getCountries(); // The getCountries function should return an array with country codes and names.
+            $result = array_combine($result, array_map(function ($countryCode) use ($countries) {
+                return $countries[$countryCode];
+            }, $result));
+        } elseif ($combine) {
+            $result = array_combine($result, $result);
+        }
+
+        return $result;
     }
+
 
     /**
      * Builds the API URL based on the provided type and parameters.

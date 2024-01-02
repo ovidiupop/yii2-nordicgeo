@@ -38,6 +38,11 @@ Once the extension is installed, integrate the NordicGeo component into your Yii
     ],
     ............
 ],
+
+'controllerMap' => [
+    'nordicgeo'=> 'ovidiupop\nordicgeo\controllers\NordicGeoController',
+    ............
+]
 ```
 
 To use autocompletion with dependent data in a form, you need to add specific classes for each field.  
