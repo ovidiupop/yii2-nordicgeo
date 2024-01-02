@@ -26,7 +26,7 @@ class NordicGeoController extends Controller
      */
     public static function cmb($type, $params)
     {
-        $apiCaller = Yii::$app->nordicGeo;
+        $apiCaller = Yii::$app->nordicgeo;
         $defaultParams = ArrayHelper::getValue($apiCaller->getParams(), "$type.params", []);
 
         foreach ($defaultParams as $defaultParam) {
@@ -35,7 +35,7 @@ class NordicGeoController extends Controller
             }
         }
 
-        return Yii::$app->nordicGeo->callApi($type, $params, true);
+        return Yii::$app->nordicgeo->callApi($type, $params, true);
     }
 
     /**

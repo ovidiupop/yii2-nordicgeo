@@ -31,7 +31,7 @@ Usage
 Once the extension is installed, integrate the NordicGeo component into your Yii2 application by configuring it in config.php. Harness the power of APIs from the nordic-geo.com:
 ```php
 'components' => [
-    'nordicGeo' => [
+    'nordicgeo' => [
         'class' => 'ovidiupop\nordicgeo\NordicGeo',
         'apisBaseUrl' => 'http://nordic-geo.com/',
         'queryBaseUrl' => 'http://nordic-geo.com/api/query?type=',

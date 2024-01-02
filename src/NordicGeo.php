@@ -36,12 +36,17 @@ class NordicGeo extends Component
     private $apis;
 
     /**
+     * @var
+     */
+    private $countriesName;
+    /**
      * Initializes the component and registers the necessary assets.
      */
     public function init()
     {
         parent::init();
         NordicGeoAsset::register(\Yii::$app->getView());
+        $this->setCountriesName();
         $this->loadApis();
     }
 
@@ -90,16 +95,32 @@ class NordicGeo extends Component
      *
      * @return array An array containing country codes as keys and translated country names as values.
      */
-    public function getCountries()
+    public function getCountriesName()
     {
-        return [
-            'DK' => Yii::t('app', 'Denmark'),
-            'FI' => Yii::t('app', 'Finland'),
-            'FO' => Yii::t('app', 'Faroe Islands'),
-            'IS' => Yii::t('app', 'Iceland'),
-            'NO' => Yii::t('app', 'Norway'),
-            'SE' => Yii::t('app', 'Sweden'),
-        ];
+        return $this->countriesName;
+    }
+
+    /**
+     * Load countries name from apisBaseUrl
+     *
+     * @return void
+     */
+    public function setCountriesName()
+    {
+        $url = $this->apisBaseUrl . 'params?all';
+        $allData = json_decode(file_get_contents($url), true) ?: [];
+        $this->countriesName = $allData['Countries']['real_names'];
+    }
+
+    /**
+     * Return real name of a country based on its code
+     *
+     * @param $countryCode
+     * @return mixed
+     */
+    public function getCountryName($countryCode)
+    {
+        return Yii::t('app', $this->countriesName[$countryCode]);
     }
 
     /**
@@ -116,7 +137,7 @@ class NordicGeo extends Component
         $result = $this->makeApiCall($url);
 
         if ($combine && $type === 'Countries') {
-            $countries = $this->getCountries(); // The getCountries function should return an array with country codes and names.
+            $countries = $this->getCountriesName();
             $result = array_combine($result, array_map(function ($countryCode) use ($countries) {
                 return $countries[$countryCode];
             }, $result));
