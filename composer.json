@@ -1,0 +1,21 @@
+{
+    "name": "ovidiupop/yii2-nordicgeo",
+    "description": "Yii2-NordicGeo is a robust Yii2 component designed for seamless integration with geographical APIs in the Nordic countries.",
+    "type": "yii2-extension",
+    "keywords": ["yii2","extension","nordic","nordicgeo","php"],
+    "license": "GPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Ovidiu Pop",
+            "email": "ovidiupop70@gmail.com"
+        }
+    ],
+    "require": {
+        "yiisoft/yii2": "2.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "ovidiupop\\nordicgeo\\": "src/"
+        }
+    }
+}
